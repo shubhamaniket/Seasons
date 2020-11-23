@@ -1,0 +1,23 @@
+.container{
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+.blueBack{
+    background-color: aliceblue;
+}
+.orangeBack{
+    background-color: orange;
+}
+.icon-left{
+    position: absolute;
+    top: 40px;
+    left: 40px;
+}
+
+.icon-right{
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+}

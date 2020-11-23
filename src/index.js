@@ -1,17 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import Spinner from './Spinner';
+import SeasonDisplay from './SeasonDisplay';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+class App extends React.Component{
+    state = {
+            lat : null,
+            lon : null,
+            errorMsg : ''
+    }
+    componentDidMount(){
+        window.navigator.geolocation.getCurrentPosition(
+            position => this.setState({lat : position.coords.latitude,lon : position.coords.longitude}),
+            err => this.setState({errorMsg : err.message})
+        )
+    }
+    render(){
+        if(this.state.errorMsg && !this.state.lat){
+            return (
+                <div className="ui container">
+                    Error : {this.state.errorMsg}
+                </div>
+            );
+        }
+        if(!this.state.errorMsg && this.state.lat){
+            return <SeasonDisplay lat={this.state.lat} lon={this.state.lon}/>
+        }
+        return <Spinner/>
+    }
+}
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+ReactDOM.render(<App/>,document.querySelector('#root'));
